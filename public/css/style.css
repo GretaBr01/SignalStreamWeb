@@ -1,0 +1,46 @@
+html, body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.navbar-brand {
+    display: inline-block;
+    text-indent: 65px;
+    width: 5vw;   
+    background: url(../img/EMG_logo.svg) center center no-repeat;
+    background-size: contain;
+}
+
+
+.text-purple {
+    color: #3E0161;
+}
+
+.bg-purple {
+    background: linear-gradient(135deg, #5A018D, #ab67e7);
+}
+
+.background-home {
+    position: relative;
+    height: 100vh;
+    width: 100vw; 
+    overflow: hidden;
+}
+
+.background-home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url(../img/EMG_logo.svg)center center no-repeat;
+    background-size: cover;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.background-home > * {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
