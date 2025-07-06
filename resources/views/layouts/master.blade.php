@@ -29,6 +29,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
             <div class="container-fluid px-4">
+                
                 <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
                     <strong>SignalStreamWeb</strong>
                 </a>
@@ -45,14 +46,30 @@
                     
                     <ul class="navbar-nav gap-3">
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">Come funziona</a>
+                        <a class="nav-link" href="{{ route('home') }}">{{ __('messages.how_it_works') }}</a>
                         </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="/login">Accedi</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="btn btn-outline-primary" href="/register">Registrati</a>
-                        </li>
+
+                        @if(auth()->check())
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">{{ __('messages.work_space') }}</a>
+                            </li>
+
+                            <li class="nav-item"><i>{{ auth()->user()->name }}</i>
+                                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                                @csrf
+                                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                    </button>
+                                </form>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('messages.btn_login') }}</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="btn btn-outline-primary" href="{{ route('register') }}">{{ __('messages.register') }}</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>

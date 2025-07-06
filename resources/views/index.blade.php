@@ -9,7 +9,9 @@
     <h1 class="display-1 fw-bold text-purple">{{ __('messages.title') }}</h1>
     <p class="fs-3 lead text-muted">{{ __('messages.subtitle') }}</p>
     <div class="d-flex justify-content-center gap-3 mt-4">
-      <a href="/login" class="btn btn-primary px-4">{{ __('messages.btn_login') }}</a>
+      @if(!auth()->check())
+      <a href="{{ route('login') }}" class="btn btn-primary px-4">{{ __('messages.btn_login') }}</a>
+      @endif
       <a href="#info" class="btn btn-outline-secondary px-4">{{ __('messages.btn_more') }}</a>
     </div>
   </div>
@@ -58,8 +60,10 @@
 
   <div class="bg-purple text-white py-5 text-center">
     <h2 class="mb-3">{{ __('messages.get_started_title') }}</h2>
+    @if(!auth()->check())
     <p class="lead">{{ __('messages.get_started_desc') }}</p>
-    <a href="/register" class="btn btn-light text-purple px-4 mt-3">{{ __('messages.register') }}</a>
+    <a href="{{ route('register') }}" class="btn btn-light text-purple px-4 mt-3">{{ __('messages.register_now') }}</a>
+    @endif
   </div>
 
 @endsection

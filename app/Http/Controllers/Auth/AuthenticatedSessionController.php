@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
+
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -16,7 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        return view('auth.mylogin');
     }
 
     /**
@@ -24,11 +28,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        try{
+            $request->authenticate();
+            $request->session()->regenerate();
 
-        $request->session()->regenerate();
+            return Redirect::to(route('home'));
+        }catch(ValidationException $e) {
+            return back()
+                ->withInput($request->only('email')) // mantiene l’email inserita
+                ->with('error', "{{ __('messages.login_error') }}");
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+
+        // return redirect()->intended(route('dashboard', absolute: false));
+        
     }
 
     /**
@@ -43,5 +56,18 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function ajaxCheckForEmail(Request $request)
+    {
+        $dl = new DataLayer();
+        
+        if($dl->findUserByEmail($request->input('email')))
+        {
+            $response = array('found'=>true);
+        } else {
+            $response = array('found'=>false);
+        }
+        return response()->json($response);
     }
 }

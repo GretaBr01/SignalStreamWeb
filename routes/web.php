@@ -21,11 +21,20 @@ use App\Http\Controllers\LangController;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-require __DIR__.'/auth.php';
+
 
 Route::get('/lang/{lang}', [LangController::class, 'changeLanguage'])->name('setLang');
 
 Route::middleware(['lang'])->group(function() {
+    require __DIR__.'/auth.php';
+    
     Route::get('/', [FrontController::class, 'getHome'])->name('home');
+
+    // Route::middleware(['auth','isRegisteredUser'])->group(function() {
+
+    // }
+
+    // Route::middleware(['auth','isAdmin'])->group(function() {
+    // });
 
 });

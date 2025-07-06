@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Redirect;
+
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -19,7 +23,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.myregister');
     }
 
     /**
@@ -39,12 +43,16 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'registered_user'
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // return redirect(route('dashboard', absolute: false));
+        return Redirect::to(route('home'));
     }
+
+
 }
