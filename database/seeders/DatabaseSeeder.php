@@ -29,20 +29,20 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Greta Brognoli',
             'email' => 'greta.brognoli@gmail.com',
-            'password' => Hash::make('bianchini'),
+            'password' => Hash::make('greta'),
             'role' => 'admin'
         ]);
 
         User::factory()->create([
             'name' => 'Davide Bianchi',
-            'email' => 'davide.bianchini@unibs.it',
-            'password' => Hash::make('bianchini')
+            'email' => 'davide.bianchi@libero.it',
+            'password' => Hash::make('greta')
         ]);
 
         User::factory()->create([
             'name' => 'Alessandra Rossi',
             'email' => 'alessandra.rossi@gmail.com',
-            'password' => Hash::make('bianchini')
+            'password' => Hash::make('greta')
         ]);
     }
 }

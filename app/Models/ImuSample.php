@@ -8,7 +8,7 @@ class ImuSample extends Model
 {
     protected $table = "imu_samples";
 
-    protected $fillable = ['series_id', 'timestamp', 'gyr_x', 'gyr_y', 'gyr_z', 'acc_x', 'acc_y', 'acc_z'];
+    protected $fillable = ['series_id', 'path'];
 
     public function series(){
         return $this->belongsTo(Serie::class,'series_id','id');

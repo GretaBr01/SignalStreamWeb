@@ -31,7 +31,7 @@
             <div class="container-fluid px-4">
                 
                 <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
-                    <strong>SignalStreamWeb</strong>
+                    <strong>{{ __('messages.title') }}</strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -51,7 +51,7 @@
 
                         @if(auth()->check())
                             <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">{{ __('messages.work_space') }}</a>
+                            <a class="nav-link" href="{{ route('workspace.edituser') }}">{{ __('messages.work_space') }}</a>
                             </li>
 
                             <li class="nav-item"><i>{{ auth()->user()->name }}</i>

@@ -45,4 +45,5 @@ return [
     'already_account' => 'Already have an account?',
 
     'work_space' => 'Personal Area',
+    'title_workspace' => 'SignalStreamWeb - Personal Area'
 ];

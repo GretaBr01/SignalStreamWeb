@@ -2,8 +2,6 @@
 
 @section('title', __('messages.title'))
 
-@section('active_home','active')
-
 @section('body')
   <div class="background-home text-center bg-light d-flex flex-column justify-content-center align-items-center">
     <h1 class="display-1 fw-bold text-purple">{{ __('messages.title') }}</h1>

@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role', 'age', 'gender', 'sport', 'training_duration',
     ];
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\UserController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -27,12 +28,16 @@ Route::get('/lang/{lang}', [LangController::class, 'changeLanguage'])->name('set
 
 Route::middleware(['lang'])->group(function() {
     require __DIR__.'/auth.php';
-    
+
     Route::get('/', [FrontController::class, 'getHome'])->name('home');
 
-    // Route::middleware(['auth','isRegisteredUser'])->group(function() {
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/users/update', [UserController::class, 'update'])->name('users.update');
+    });
 
-    // }
+    Route::middleware(['auth','isRegisteredUser'])->group(function() {
+        Route::get('/workspace/editUser', [FrontController::class, 'getEditUser'])->name('workspace.edituser');
+    });
 
     // Route::middleware(['auth','isAdmin'])->group(function() {
     // });

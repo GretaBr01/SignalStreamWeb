@@ -24,11 +24,7 @@ return new class extends Migration
 
         Schema::create('emg_samples', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('timestamp');
-            $table->integer('emg0');
-            $table->integer('emg1');
-            $table->integer('emg2');
-            $table->integer('emg3');
+            $table->string('path')->nullable();
             $table->unsignedBigInteger('series_id');
             $table->timestamps();
         });
@@ -36,15 +32,16 @@ return new class extends Migration
 
         Schema::create('imu_samples', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('timestamp');
-            $table->float('gyr_x');
-            $table->float('gyr_y');
-            $table->float('gyr_z');
-            $table->float('acc_x');
-            $table->float('acc_y');
-            $table->float('acc_z');
+            $table->string('path')->nullable();
             $table->unsignedBigInteger('series_id');
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedTinyInteger('age')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('sport')->nullable();
+            $table->string('training_duration')->nullable();
         });
 
 
@@ -70,5 +67,8 @@ return new class extends Migration
         Schema::dropIfExists('imu_samples');
         Schema::dropIfExists('emg_samples');
         Schema::dropIfExists('series');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['age', 'gender', 'sport', 'training_duration']);
+        });
     }
 };

@@ -25,104 +25,98 @@ class ImportSensorData extends Command
      *
      * @var string
      */
-    protected $description = 'Importa dati EMG e IMU da file CSV, crea serie dinamiche e le associa ad utenti casuali';
+    protected $description = 'Importa dati EMG e IMU da file CSV, crea un csv per ogni serie e le associa ad utenti casuali';
 
     /**
      * Execute the console command.
      */
     public function handle(){
-        $emgPath = storage_path('app/' . $this->argument('emgFile'));
-        $imuPath = storage_path('app/' . $this->argument('imuFile'));
-
-        if (!file_exists($emgPath) || !file_exists($imuPath)) {
-            $this->error('File non trovati.');
-            return;
-        }
-
+        $emg_file_name = $this->argument('emgFile');
+        $imu_file_name = $this->argument('imuFile');
 
         $users = User::all();
         if ($users->isEmpty()) {
-            $this->error("Nessun utente trovato nel database.");
+            $this->error("Nessun utente trovato.");
             return;
         }
 
-        $seriesCache = [];
+        $seriesMap = [];
 
-        $imuFile = fopen($imuPath, 'r');
-        $imu_header = fgetcsv($imuFile);
-        $imu_header = array_map('trim', $imu_header);
+        $this->processCsvBySeries('emg', $emg_file_name, $seriesMap, $users);
+        $this->processCsvBySeries('imu', $imu_file_name, $seriesMap, $users);
 
+        foreach ($seriesMap as $seriesId => $info) {
 
-        while (($imu_row = fgetcsv($imuFile)) !== false) {
-            $imu_data = array_combine($imu_header, $imu_row);
+            $serie = Serie::create([
+                'label' => $info['label'],
+                'user_id' => $info['user_id'],
+                'started_at' => now(),
+                'ended_at' => now()->addMinutes(5), // Modifica se necessario
+                'note' => null,
+            ]);
 
-            $seriesKey = $imu_data['series_id'];
-
-            // Se la serie non è ancora stata creata, la creiamo ora
-            if (!isset($seriesCache[$seriesKey])) {
-                $randomUser = $users->random();
-
-                $newSeries = Serie::create([
-                    'user_id' => $randomUser->id,
-                    'label' => $imu_data['label'],
-                    'started_at' => now(),
+            if (isset($info['emg_path'])) {
+                EmgSample::create([
+                    'series_id' => $serie->id,
+                    'path' => $info['emg_path'],
                 ]);
-
-                $seriesCache[$seriesKey] = $newSeries->id;
-
-                $this->info("Serie ID virtuale {$seriesKey} creata come ID DB {$newSeries->id}, utente {$randomUser->id}");
             }
 
-            ImuSample::create([
-                'series_id' => $seriesCache[$seriesKey],
-                'timestamp' => $imu_data['timestamp'],
-                'acc_x' => $imu_data['acc_x'] ?? null,
-                'acc_y' => $imu_data['acc_y'] ?? null,
-                'acc_z' => $imu_data['acc_z'] ?? null,
-                'gyr_x' => $imu_data['gyr_x'] ?? null,
-                'gyr_y' => $imu_data['gyr_y'] ?? null,
-                'gyr_z' => $imu_data['gyr_z'] ?? null,
-            ]);
-        }
-        fclose($imuFile);
-
-        $this->info("Importazione imu completata. Serie create: " . count($seriesCache));
-
-        // EMG
-        $emgFile = fopen($emgPath, 'r');
-        $emg_header = fgetcsv($emgFile);
-        $emg_header = array_map('trim', $emg_header);
-
-        while (($emg_row = fgetcsv($emgFile)) !== false) {
-            $emg_data = array_combine($emg_header, $emg_row);
-
-            $seriesKey = $emg_data['series_id'];
-
-            // Se la serie non è ancora stata creata, la creiamo ora
-            if (!isset($seriesCache[$seriesKey])) {
-                $randomUser = $users->random();
-
-                $newSeries = Serie::create([
-                    'user_id' => $randomUser->id,
-                    'label' => $emg_data['label'],
-                    'started_at' => now(),
+            if (isset($info['imu_path'])) {
+                ImuSample::create([
+                    'series_id' => $serie->id,
+                    'path' => $info['imu_path'],
                 ]);
-
-                $seriesCache[$seriesKey] = $newSeries->id;
-
-                $this->info("Serie ID virtuale {$seriesKey} creata come ID DB {$newSeries->id}, utente {$randomUser->id}");
             }
-
-            EmgSample::create([
-                'series_id' => $seriesCache[$seriesKey],
-                'timestamp' => $emg_data['timestamp'],
-                'emg0' =>  $emg_data['emg0'] ?? null,
-                'emg1' => $emg_data['emg1'] ?? null,
-                'emg2' => $emg_data['emg2'] ?? null,
-                'emg3' => $emg_data['emg3'] ?? null,
-            ]);
+            
+            $this->info("Serie $seriesId salvata per utente {$info['user_id']}");
         }
-        fclose($emgFile);
-        $this->info("Importazione emg completata. Serie create: " . count($seriesCache));
     }
+
+    private function processCsvBySeries($type, $filename, &$seriesMap, $users)
+    {
+        $handle = fopen(storage_path("app/$filename"), 'r');
+        if (!$handle) {
+            $this->error("Errore nell'apertura del file: $filename");
+            return;
+        }
+
+        $header = fgetcsv($handle);
+        $seriesWriters = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            $data = array_combine($header, $row);
+            $seriesId = $data['series_id'];
+
+            // Se è la prima volta che vede questa serie
+            if (!isset($seriesMap[$seriesId])) {
+                $user = $users->random();
+                $seriesMap[$seriesId] = [
+                    'user_id' => $user->id,
+                    'label' => $data['label'] ?? null,
+                    'emg_path' => null,
+                    'imu_path' => null,
+                ];
+            }
+
+            // Scrittura su file CSV
+            $path = "series_data/$type/series_$seriesId.csv";
+            $fullPath = storage_path("app/$path");
+
+            if (!isset($seriesWriters[$seriesId])) {
+                Storage::makeDirectory("series_data/$type");
+                $seriesWriters[$seriesId] = fopen($fullPath, 'w');
+                fputcsv($seriesWriters[$seriesId], $header);
+                $seriesMap[$seriesId]["{$type}_path"] = $path;
+            }
+
+            fputcsv($seriesWriters[$seriesId], $row);
+        }
+
+        fclose($handle);
+        foreach ($seriesWriters as $writer) {
+            fclose($writer);
+        }
+    }
+
 }
