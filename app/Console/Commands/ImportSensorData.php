@@ -105,7 +105,7 @@ class ImportSensorData extends Command
             }
 
             // Scrittura su file CSV
-            $path = "private/series_data/$type/series_$seriesId.csv";
+            $path = "series_data/$type/series_$seriesId.csv";
             $fullPath = storage_path("app/$path");
 
             if (!isset($seriesWriters[$seriesId])) {

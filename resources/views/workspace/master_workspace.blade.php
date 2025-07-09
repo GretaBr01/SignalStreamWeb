@@ -9,11 +9,17 @@
             <li class="nav-item mb-2">
             <a href="{{ route('workspace.series') }}" class="nav-link">Storico Dati</a>
             </li>
+            @if(auth()->user()->role !== 'admin')
+                <li class="nav-item mb-2">
+                <a href="{{ route('workspace.acquisizione') }}" class="nav-link">Acquisizione Realtime</a>
+                </li>
+            @endif
             <li class="nav-item mb-2">
-            <a href="{{ route('workspace.acquisizione') }}" class="nav-link">Acquisizione Realtime</a>
-            </li>
-            <li class="nav-item mb-2">
-            <a href="{{ route('user.edit', auth()->user()->id) }}" class="nav-link">Profilo Utente</a>
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('users.index') }}" class="nav-link">Gestione Utenti</a>
+                @else
+                    <a href="{{ route('user.edit', auth()->user()->id) }}" class="nav-link">Profilo Utente</a>
+                @endif
             </li>
         </ul>
     </div>

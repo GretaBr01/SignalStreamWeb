@@ -20,11 +20,30 @@
                     @method('PUT')
                 @endif
 
-                {{-- <div class="mb-3">
-                    <label for="name" class="form-label">Nome</label>
-                    <input type="text" class="form-control" name="name" id="name"
-                        value="{{ old('name', Auth::user()->name) }}" placeholder="Inserisci un nuovo nome (opzionale)">
-                </div> --}}
+                @if(auth()->user()->role === 'admin')
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                            value="{{ old('name', $user->name) }}" placeholder="Inserisci un nuovo nome (opzionale)">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="email"
+                            value="{{ old('name', $user->email) }}" placeholder="Inserisci un nuova mail (opzionale)">
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Ruolo</label>
+                        <select name="role" id="role" class="form-select">
+                            <option value="">-- Tutti i ruoli --</option>
+                            @foreach($roles as $roleOption)
+                                <option value="{{ $roleOption }}" {{ $user->role === $roleOption ? 'selected' : '' }}>
+                                    {{ ucfirst($roleOption) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
 
                 <div class="mb-3">
                     <label for="age" class="form-label">Età</label>

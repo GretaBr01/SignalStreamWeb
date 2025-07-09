@@ -9,6 +9,20 @@
     <form action="{{ route('series.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
+        @if(auth()->user()->role === 'admin')
+            <div class="mb-3">
+            <label for="user_id" class="form-label">Utente:</label>
+            <select name="user_id" id="user_id" class="form-select" required>
+                <option value="">-- Seleziona Utente --</option>
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+
         <!-- Note -->
         <div class="mb-3">
             <label for="note" class="form-label">Note (opzionale):</label>
