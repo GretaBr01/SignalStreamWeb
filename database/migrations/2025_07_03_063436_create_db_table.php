@@ -14,11 +14,9 @@ return new class extends Migration
 
         Schema::create('series', function (Blueprint $table) {
             $table->id();
-            $table->string('label')->nullable();
-            $table->dateTime('started_at')->nullable();
-            $table->dateTime('ended_at')->nullable();
             $table->text('note')->nullable();            
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
         });
 
@@ -37,6 +35,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image')->nullable(); // percorso immagine
+            $table->timestamps();
+        });
+
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedTinyInteger('age')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
@@ -47,6 +52,8 @@ return new class extends Migration
 
         Schema::table('series', function(Blueprint $table){
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('categories');
+
         });
 
         Schema::table('emg_samples', function(Blueprint $table){
@@ -67,6 +74,7 @@ return new class extends Migration
         Schema::dropIfExists('imu_samples');
         Schema::dropIfExists('emg_samples');
         Schema::dropIfExists('series');
+        Schema::dropIfExists('categories');
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['age', 'gender', 'sport', 'training_duration']);
         });

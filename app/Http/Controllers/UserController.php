@@ -3,35 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\DataLayer;
 
 class UserController extends Controller
 {
-
-    // public function edit(String $id){
-    //     $dl = new DataLayer();
-
-    //     $user = Auth::user();
-
-    //     $name = $user-> 'name';
-    //     $age = $dl->'age';
-    //     $generi = $dl->listGeneri();
-    //     $lingueAudio = $dl -> listLingue();
-    //     $sottotitoli = $dl -> listLingue();
-
-    //     if($film !== null){
-    //         return view('film.editFilm')
-    //                     ->with('film', $film)
-    //                     ->with('registi', $registi)
-    //                     ->with('generi', $generi)
-    //                     ->with('lingueAudio', $lingueAudio)
-    //                     ->with('lingueSub', $sottotitoli);
-    //     } else{
-    //         return view('errors.404')->with('message', 'FILM ID SBAGLIATO!');
-    //     }
-    // }
+    public function edit(){
+        $lang = Session::get('language', 'en');
+        $user = Auth::user();
+        return view('workspace.user.edit', compact('user'));
+    }
 
     public function update(Request $request)
     {

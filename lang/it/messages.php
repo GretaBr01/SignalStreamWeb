@@ -45,5 +45,5 @@ return [
     'already_account' => 'Hai già un account?',
 
     'work_space' => 'Area Personale',
-    'title_workspace' => 'SignalStreamWeb - Area Personale'
+    'title_workspace' => 'SignalStreamWeb - Area Personale',
 ];

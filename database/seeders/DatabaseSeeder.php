@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Category;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->createUsers();
+        $this->createCategories();
     }
 
     private function createUsers() {
@@ -43,6 +45,27 @@ class DatabaseSeeder extends Seeder
             'name' => 'Alessandra Rossi',
             'email' => 'alessandra.rossi@gmail.com',
             'password' => Hash::make('greta')
+        ]);
+    }
+
+    private function createCategories(){
+        Category::factory()->create([
+            'name' => 'left',
+            'image' => 'private/image/left.jpg'
+        ]);
+
+        Category::factory()->create([
+            'name' => 'turning',
+            'image' => 'private/image/right.jpg'
+        ]);
+
+        Category::factory()->create([
+            'name' => 'stopping',
+            'image' => 'private/image/stop.jpg'
+        ]);
+
+        Category::factory()->create([
+            'name' => 'notevent'
         ]);
     }
 }

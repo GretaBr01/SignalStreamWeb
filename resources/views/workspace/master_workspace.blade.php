@@ -7,13 +7,13 @@
     <div class="col-md-3 col-lg-2 sidebar">
         <ul class="nav flex-column">
             <li class="nav-item mb-2">
-            <a href="{{ route('home') }}" class="nav-link">Storico Dati</a>
+            <a href="{{ route('workspace.series') }}" class="nav-link">Storico Dati</a>
             </li>
             <li class="nav-item mb-2">
-            <a href="{{ route('home') }}" class="nav-link">Acquisizione Realtime</a>
+            <a href="{{ route('workspace.acquisizione') }}" class="nav-link">Acquisizione Realtime</a>
             </li>
             <li class="nav-item mb-2">
-            <a href="{{ route('workspace.edituser') }}" class="nav-link">Profilo Utente</a>
+            <a href="{{ route('user.edit', auth()->user()->id) }}" class="nav-link">Profilo Utente</a>
             </li>
         </ul>
     </div>

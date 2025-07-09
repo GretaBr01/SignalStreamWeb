@@ -7,6 +7,7 @@ use App\Models\Serie;
 use App\Models\EmgSample;
 use App\Models\ImuSample;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 
 class ImportSensorData extends Command
@@ -47,11 +48,15 @@ class ImportSensorData extends Command
 
         foreach ($seriesMap as $seriesId => $info) {
 
+            $category = Category::where('name', $info['label'])->first();
+            if (!$category) {
+                $this->error("Categoria '{$info['label']}' non trovata. Serie $seriesId saltata.");
+                continue;
+            }
+
             $serie = Serie::create([
-                'label' => $info['label'],
+                'category_id' => $category->id,
                 'user_id' => $info['user_id'],
-                'started_at' => now(),
-                'ended_at' => now()->addMinutes(5), // Modifica se necessario
                 'note' => null,
             ]);
 
@@ -100,7 +105,7 @@ class ImportSensorData extends Command
             }
 
             // Scrittura su file CSV
-            $path = "series_data/$type/series_$seriesId.csv";
+            $path = "private/series_data/$type/series_$seriesId.csv";
             $fullPath = storage_path("app/$path");
 
             if (!isset($seriesWriters[$seriesId])) {
