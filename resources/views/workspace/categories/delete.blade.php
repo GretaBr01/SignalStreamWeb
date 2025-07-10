@@ -1,6 +1,6 @@
 @extends('workspace.master_workspace')
 
-@section('title', 'Delete User')
+@section('title', 'Delete category')
 
 @section('body')
 <div class="container-fluid text-center page-content">
@@ -8,11 +8,11 @@
         <div class="col-md-12">
             <header>
                 <h1>
-                    Delete User {{ $user->name }}
+                    Delete category {{ $category->name }}
                 </h1>
             </header>
             <p class="confirm mt-3 fs-5">
-                Are you sure you want to delete this user?
+                Are you sure you want to delete this category?
             </p>
         </div>
     </div>
@@ -28,9 +28,9 @@
                 </div>
                 <div class="card-body">
                     <p class="text-danger fw-bold">
-                        This series <strong>will be permanently removed</strong> from the database.
+                        This category <strong>will be permanently removed</strong> from the database.
                     </p>
-                    <form method="POST" action="{{ route('user.destroy', ['id' => $user->id]) }}">
+                    <form method="POST" action="{{ route('categories.destroy', $category->id) }}">
                         @csrf
                         @method('DELETE')
                         <label for="deleteSubmit" class="btn btn-danger">
@@ -50,9 +50,9 @@
                 </div>
                 <div class="card-body">
                     <p class="text-muted">
-                        The user <strong>will not be deleted</strong>.
+                        The category <strong>will not be deleted</strong>.
                     </p>
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('categories.index') }}" class="btn btn-secondary">
                         <i class="bi bi-box-arrow-left"></i> Cancel
                     </a>
                 </div>

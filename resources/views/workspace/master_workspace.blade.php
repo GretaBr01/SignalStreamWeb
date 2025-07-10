@@ -13,6 +13,10 @@
                 <li class="nav-item mb-2">
                 <a href="{{ route('workspace.acquisizione') }}" class="nav-link">Acquisizione Realtime</a>
                 </li>
+            @else
+                <li class="nav-item mb-2">
+                <a href="{{ route('categories.index') }}" class="nav-link">Gestione Categorie</a>
+                </li>
             @endif
             <li class="nav-item mb-2">
                 @if(auth()->user()->role === 'admin')

@@ -149,3 +149,7 @@ html, body {
     top: 1rem;
     right: 1rem;
 }
+
+.page-content {
+    margin-top: 70px; /* Altezza navbar */
+}

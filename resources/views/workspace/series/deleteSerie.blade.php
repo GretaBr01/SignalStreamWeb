@@ -3,7 +3,7 @@
 @section('title', 'Delete Serie')
 
 @section('body')
-<div class="container-fluid text-center">
+<div class="container-fluid text-center page-content">
     <div class="row">
         <div class="col-md-12">
             <header>

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'login_error' => "errore nell'autenticazione",
+
     'title' => 'SignalStreamWeb',
     'subtitle' => 'Visualizza e analizza i tuoi segnali EMG in tempo reale.',
     'btn_login' => 'Accedi',

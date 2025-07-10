@@ -51,17 +51,17 @@ class DatabaseSeeder extends Seeder
     private function createCategories(){
         Category::factory()->create([
             'name' => 'left',
-            'image' => 'private/image/left.jpg'
+            'image' => 'image/left.jpg'
         ]);
 
         Category::factory()->create([
             'name' => 'turning',
-            'image' => 'private/image/right.jpg'
+            'image' => 'image/right.jpg'
         ]);
 
         Category::factory()->create([
             'name' => 'stopping',
-            'image' => 'private/image/stop.jpg'
+            'image' => 'image/stop.jpg'
         ]);
 
         Category::factory()->create([

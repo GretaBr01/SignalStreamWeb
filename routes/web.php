@@ -67,6 +67,12 @@ Route::middleware(['lang'])->group(function() {
         // Route::get('/users/{id}/destroy/confirm', [UserController::class, 'confirmDestroy'])->name('user.destroy.confirm');
         // Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
+        Route::resource('categories', CategoryController::class);
+        Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('/categories/{id}/destroy/confirm', [CategoryController::class, 'confirmDestroy'])->name('categories.destroy.confirm');
+
+        Route::get('/admin/category-image/{path}', [CategoryController::class, 'showImage'])->where('path', '.*')->name('category.image');
+
     });
 
 });

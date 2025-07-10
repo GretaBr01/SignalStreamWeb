@@ -66,8 +66,16 @@ class UserController extends Controller
             'gender' => 'nullable|in:male,female,other',
             'sport' => 'nullable|string|max:255',
             'training_duration' => 'nullable|string|max:255',
+            'role' => 'nullable|string|max:255',
         ]);
         
+        // Se l'admin non ha ancora confermato, mostra la pagina di conferma
+        if ($role === 'admin' && !$request->has('confirm')) {
+            return view('workspace.user.confirm_update', [
+                'user' => $user,
+                'validated' => $validated,
+            ]);
+        }
         
         $dl->editUser(
             $user->id,
@@ -77,7 +85,7 @@ class UserController extends Controller
             $validated['sport'] ?? null,
             $validated['training_duration'] ?? null,
             $validated['email'] ?? null,
-            $role
+            $validated['role'] ?? null
         );
 
         return redirect()->route('users.index');

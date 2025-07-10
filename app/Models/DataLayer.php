@@ -8,6 +8,21 @@ use Illuminate\Support\Facades\Storage;
 
 class DataLayer extends Model
 {
+
+    protected function findOrFailById($modelClass, $id)
+    {
+        $model = $modelClass::find($id);
+        if (!$model) {
+            throw new \Exception("Elemento non trovato per $modelClass con ID $id");
+        }
+        return $model;
+    }
+
+    protected function findById($modelClass, $id)
+    {
+        return $modelClass::find($id);
+    }
+
     public function editUser($id, $name, $age, $gender, $sport, $training_duration, $email, $role)
     {
         $user = User::find($id);
@@ -16,35 +31,63 @@ class DataLayer extends Model
             throw new \Exception("Utente non trovato");
         }
 
-        if ($name !== null) {
-            $user->name = $name;
-        }
-
-        if ($age !== null) {
-            $user->age = $age;
-        }
-
-        if ($gender !== null) {
-            $user->gender = $gender;
-        }
-
-        if ($sport !== null) {
-            $user->sport = $sport;
-        }
-
-        if ($training_duration !== null) {
-            $user->training_duration = $training_duration;
-        }
-
-        if ($email !== null) {
-            $user->email = $email;
-        }
-
-        if ($role !== null) {
-            $user->role = $role;
-        }
+        if ($name !== null) $user->name = $name;
+        if ($age !== null) $user->age = $age;
+        if ($gender !== null) $user->gender = $gender;
+        if ($sport !== null) $user->sport = $sport;
+        if ($training_duration !== null) $user->training_duration = $training_duration;
+        if ($email !== null) $user->email = $email;
+        if ($role !== null) $user->role = $role;
 
         $user->save();
+    }
+    
+    private function saveImage($name, $image){
+        $path = $image->storeAs('image', $name, 'private'); 
+        return $path;
+    }
+
+    public function editCategory($category_id, $name, $image)
+    {
+        $category = $this->findOrFailById(Category::class, $category_id);
+        $category->name = $name;
+
+        if ($image) {
+            // Rimuovi immagine esistente
+            if ($category->image && Storage::disk('private')->exists($category->image)) {
+                Storage::disk('private')->delete($category->image);
+            }
+
+            // Salva nuova immagine
+            $path = $this->saveImage($name, $image); 
+            $category->image = $path;
+        }
+
+        $category->save();
+    }
+
+    public function createCategory($name, $image = null)
+    {
+        $category = new Category();
+        $category->name = $name;
+
+        if ($image) {
+            $path = $this->saveImage($name, $image);
+            $category->image = $path;
+        }
+
+        $category->save();
+    }
+
+    public function deleteCategory($category_id){
+        // Elimina i file associati e i record EMG
+        $category = $this->findOrFailById(Category::class, $category_id);
+
+        if ($category->serie()->exists()) {
+            throw new \Exception("Impossibile eliminare la categoria: ha serie associate.");
+        }
+
+        $category->delete();
     }
 
     public function listSeries($userID)
@@ -97,19 +140,26 @@ class DataLayer extends Model
         return Category::orderBy('name','asc')->get();
     }
 
-    public function findSerieById($serieID, $user){
-        if ($user->role === 'admin') {
-            return Serie::where('id', $serieID)->first();
-        } else {
-            return Serie::where('id', $serieID)->where('user_id', $user->id)->first();
-        }
+    public function findSerieById($serieID, $user)
+    {
+        $query = Serie::where('id', $serieID);
         
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        return $query->first();
     }
 
-    public function findUserById($userID){
-        return User::where('id', $userID)->first();        
+    public function findUserById($userID)
+    {
+        return $this->findById(User::class, $userID);
     }
 
+    public function findCategoryById($categoryID)
+    {
+        return $this->findById(Category::class, $categoryID);
+    }
 
     public function getEmgPathBySeriesID($serie_id){
         $sample = EmgSample::where('series_id', $serie_id)->first();
