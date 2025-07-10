@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\DataLayer;
+use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -52,7 +54,14 @@ class UserController extends Controller
         // Validazione dei campi
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
-            'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => [
+                            'required',
+                            'string',
+                            'lowercase',
+                            'email',
+                            'max:255',
+                            Rule::unique(User::class)->ignore($user->id),
+                        ],
             'age' => 'nullable|integer|min:1|max:120',
             'gender' => 'nullable|in:male,female,other',
             'sport' => 'nullable|string|max:255',
@@ -88,6 +97,4 @@ class UserController extends Controller
     public function destroy(){
         return view('errors.501');
     }
-
-    
 }
