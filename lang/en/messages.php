@@ -25,7 +25,6 @@ return [
     'login_subtitle' => 'Enter your credentials to continue',
     'email' => 'Email',
     'password' => 'Password',
-    'login_error' => 'Invalid credentials.',
     'required_email' => 'Email is required.',
     'required_password' => 'Password is required.',
     'no_account' => "Don't have an account?",

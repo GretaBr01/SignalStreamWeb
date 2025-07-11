@@ -55,13 +55,13 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
             'email' => [
-                            'required',
-                            'string',
-                            'lowercase',
-                            'email',
-                            'max:255',
-                            Rule::unique(User::class)->ignore($user->id),
-                        ],
+                Auth::user()->role === 'admin' ? 'required' : 'nullable',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($user->id),
+            ],
             'age' => 'nullable|integer|min:1|max:120',
             'gender' => 'nullable|in:male,female,other',
             'sport' => 'nullable|string|max:255',
@@ -88,7 +88,7 @@ class UserController extends Controller
             $validated['role'] ?? null
         );
 
-        return redirect()->route('users.index');
+        return redirect()->back()->with('success', 'Nota aggiornata con successo.');
     }
 
     public function confirmDestroy($id)
@@ -104,5 +104,14 @@ class UserController extends Controller
 
     public function destroy(){
         return view('errors.501');
+    }
+
+    public function search(Request $request)
+    {
+        $email = $request->input('email');
+
+        $users = User::where('email', 'like', '%' . $email . '%')->get(['id', 'name', 'email', 'role']);
+
+        return response()->json($users);
     }
 }

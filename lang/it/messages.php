@@ -25,7 +25,6 @@ return [
     'login_subtitle' => 'Inserisci le tue credenziali per continuare',
     'email' => 'Email',
     'password' => 'Password',
-    'login_error' => 'Credenziali non valide.',
     'required_email' => "L'email è obbligatoria.",
     'required_password' => "La password è obbligatoria.",
     'no_account' => 'Non hai un account?',

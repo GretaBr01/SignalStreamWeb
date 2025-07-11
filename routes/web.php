@@ -30,6 +30,7 @@ use App\Http\Controllers\TestFileController;
 
 Route::get('/lang/{lang}', [LangController::class, 'changeLanguage'])->name('setLang');
 
+
 // Route::get('/test-upload', [TestFileController::class, 'showForm'])->name('test.upload.form');
 // Route::post('/test-upload', [TestFileController::class, 'uploadAndDownload'])->name('test.upload');
 
@@ -37,6 +38,8 @@ Route::middleware(['lang'])->group(function() {
     require __DIR__.'/auth.php';
 
     Route::get('/', [FrontController::class, 'getHome'])->name('home');
+
+    Route::get('/come-funziona', [FrontController::class, 'getHowWorksPage'])->name('howitworks');
     
 
     Route::middleware(['auth'])->group(function () {
@@ -53,10 +56,18 @@ Route::middleware(['lang'])->group(function() {
         Route::get('/ajax/series/{id}/emg', [SeriesController::class, 'getEmgCsv']);
         Route::get('/ajax/series/{id}/imu', [SeriesController::class, 'getImuCsv']);
 
+        Route::patch('/series/{id}/note', [SeriesController::class, 'updateNote'])->name('series.updateNote');
+
+
     });
 
     Route::middleware(['auth','isRegisteredUser'])->group(function() {
-        Route::get('/workspace/acquisizione-serie', [SeriesRealTimeController::class, 'index'])->name('workspace.acquisizione');
+        Route::get('/acquisizione', [SeriesRealTimeController::class, 'index'])->name('workspace.acquisizione');
+        // Route::post('/save-series', [SeriesRealTimeController::class, 'store']);
+        Route::get('/review-series', [SeriesRealTimeController::class, 'review'])->name('rtseries.review');
+        Route::post('/save-series', [SeriesRealTimeController::class, 'store'])->name('rtseries.store');
+
+        // Route::get('/acquisizione-live', function () { return view('workspace.acquisizione'); });
     });
 
     Route::middleware(['auth','isAdmin'])->group(function() {
@@ -64,6 +75,7 @@ Route::middleware(['lang'])->group(function() {
         Route::get('/series/{id}/download/imu', [SeriesController::class, 'downloadImu'])->name('series.download.imu');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
         // Route::get('/users/{id}/destroy/confirm', [UserController::class, 'confirmDestroy'])->name('user.destroy.confirm');
         // Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 

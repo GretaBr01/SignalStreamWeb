@@ -50,6 +50,20 @@ class SeriesController extends Controller
 
     }
 
+    public function updateNote(Request $request, $id_serie)
+    {
+        $note = $request->input('note');
+        $request->validate([
+            'note' => 'nullable|string|max:1000',
+        ]);
+
+        $dl = new DataLayer();
+        $serie = $dl->updateNoteSerie($id_serie, $note);
+
+        return redirect()->back()->with('success', 'Nota aggiornata con successo.');
+    }
+
+
     public function create(){
         $dl = new DataLayer();
         $categories = $dl->listCategories();
@@ -101,21 +115,32 @@ class SeriesController extends Controller
         }        
     }
 
-    public function getEmgCsv($serie_id){
+
+    public function getEmgCsv($serie_id)
+    {
         $dl = new DataLayer();
         $csv_path = $dl->getEmgPathBySeriesID($serie_id);
-        $path = storage_path('app/' . $csv_path);
 
-        if (!file_exists($path)) abort(404);
+        if (!Storage::disk('private')->exists($csv_path)) {
+            abort(404, 'File non trovato');
+        }
+
+        $path = Storage::disk('private')->path($csv_path);
+
         return response()->file($path, ['Content-Type' => 'text/csv']);
     }
 
-    public function getImuCsv($serie_id){
+    public function getImuCsv($serie_id)
+    {
         $dl = new DataLayer();
         $csv_path = $dl->getImuPathBySeriesID($serie_id);
-        $path = storage_path('app/' . $csv_path);
 
-        if (!file_exists($path)) abort(404);
+        if (!Storage::disk('private')->exists($csv_path)) {
+            abort(404, 'File non trovato');
+        }
+
+        $path = Storage::disk('private')->path($csv_path);
+
         return response()->file($path, ['Content-Type' => 'text/csv']);
     }
 

@@ -198,6 +198,63 @@ class DataLayer extends Model
         ]);
     }
 
+    public function updateNoteSerie($id_serie, $note){
+        // Eventualmente: controlla autorizzazioni
+        $serie = $this->findById(Serie::class, $id_serie);
+        if (auth()->user()->id !== $serie->user_id && auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+        $serie->note = $note;
+        $serie->save();
+    }
+
+    private function arrayToCsvString(array $data): string
+    {
+        if (empty($data)) return '';
+
+        $handle = fopen('php://temp', 'r+');
+        fputcsv($handle, array_keys($data[0]));
+        foreach ($data as $row) {
+            fputcsv($handle, $row);
+        }
+        rewind($handle);
+        $csv = stream_get_contents($handle);
+        fclose($handle);
+
+        return $csv;
+    }
+
+    public function addRealTimeSerie($note, $user_id, $emg_file, $imu_file, $category_id){
+        // Creazione della serie Acquisita da Node.js
+        $serie = new Serie();
+        $serie->note = $note;
+        $serie->user_id = $user_id;
+        $serie->category_id = $category_id;
+        $serie->save();
+
+        $timestamp = now()->format('Ymd_His');
+        $filename = "serie_{$serie->id}_{$this->findCategoryById($category_id)->name}_{$timestamp}_";
+
+        $emgPath = "series_data/emg/{$filename}_emg.csv";
+        $imuPath = "series_data/imu/{$filename}_imu.csv";
+
+        // Decodifica JSON -> array
+        $emg = json_decode($emg_file, true);
+        $imu = json_decode( $imu_file, true);
+
+        // Salva i file
+        Storage::disk('private')->put($emgPath, $this->arrayToCsvString($emg));
+        Storage::disk('private')->put($imuPath, $this->arrayToCsvString($imu));
+
+        $serie->emgSamples()->create([
+            'path' => $emgPath,
+        ]);
+
+        $serie->imuSamples()->create([
+            'path' => $imuPath,
+        ]);
+    }
+
     public function deleteSerie($serie_id){
         // Elimina i file associati e i record EMG
         $series = Serie::find($serie_id);

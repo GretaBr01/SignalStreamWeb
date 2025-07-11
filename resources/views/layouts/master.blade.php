@@ -3,7 +3,7 @@
     <head>
         <title>@yield('title')</title>
         <meta charset="UTF-8">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, 
               user-scalable=no">
         
@@ -46,7 +46,7 @@
                     
                     <ul class="navbar-nav gap-3">
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">{{ __('messages.how_it_works') }}</a>
+                        <a class="nav-link" href="{{ route('howitworks') }}">{{ __('messages.how_it_works') }}</a>
                         </li>
 
                         @if(auth()->check())

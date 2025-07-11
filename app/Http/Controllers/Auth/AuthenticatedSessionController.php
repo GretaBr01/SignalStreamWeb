@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         }catch(ValidationException $e) {
             return back()
                 ->withInput($request->only('email')) // mantiene l’email inserita
-                ->with('error', "{{ __('messages.login_error') }}");
+                ->with('error', __('messages.login_error'));
         }
 
 

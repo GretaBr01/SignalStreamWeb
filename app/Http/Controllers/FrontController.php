@@ -12,4 +12,10 @@ class FrontController extends Controller
         return view('index');
     }
 
+    public function getHowWorksPage(){
+        $lang = Session::get('language', 'en');
+        return view('how_it_works');
+    }
+
+
 }

@@ -3,6 +3,11 @@
 @section('title', 'Le mie serie')
 
 @section('main_content')
+<div class="mb-4">
+    <button onclick="window.history.back()" class="btn btn-outline-purple rounded-pill px-4">
+        ← Torna indietro
+    </button>
+</div>
 <div class="row g-4">
     <div class="col-md-6">
         <div class="chart-box" data-chart="emg0">

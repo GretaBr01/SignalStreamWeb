@@ -3,7 +3,36 @@
 @section('title', __('messages.title_workspace'))
 
 @section('main_content')
+@if(auth()->user()->role === 'admin')
+<div class="mb-4">
+    <button onclick="window.history.back()" class="btn btn-outline-purple rounded-pill px-4">
+        ← Torna indietro
+    </button>
+</div>
+@endif
 <div class="container mt-4">
+    @if(session('success'))
+        <div class="alert alert-success" id="success-alert">
+            {{ session('success') }}
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const alert = document.getElementById('success-alert');
+                if (alert) {
+                    alert.classList.add('fade');
+                    setTimeout(() => alert.remove(), 500); // Rimuove dopo l’animazione
+                }
+            }, 5000); // 5 secondi
+        </script>
+
+        <style>
+            .alert.fade {
+                opacity: 0;
+                transition: opacity 0.5s ease-out;
+            }
+        </style>
+    @endif
     <div class="card shadow-sm">
         <div class="card-header bg-purple text-white">
             <h5 class="mb-0">Modifica Profilo</h5>
