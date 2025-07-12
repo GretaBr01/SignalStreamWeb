@@ -118,7 +118,7 @@ class DataLayer extends Model
 
     public function listUsers()
     {
-        return User::all();
+        return User::orderBy('name', 'asc')->get();
     }
 
     public function listUsersFiltered($role = null)
@@ -129,7 +129,7 @@ class DataLayer extends Model
             $query->where('role', $role);
         }
 
-        return $query->get();
+        return $query->orderBy('name', 'asc')->get();
     }
 
     public function listRoles(){
