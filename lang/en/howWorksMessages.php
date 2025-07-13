@@ -55,7 +55,7 @@ return [
 
     'architecture' => '🖼️ System architecture',
     'architecture_description' => 'The EMGesture system consists of multiple wearable modules: an acquisition unit with Arduino Nano RP2040, EMG Olimex board, IMU module, and a Raspberry Pi 3 for processing.',
-    'architecture_caption' => 'Figure: EMGesture system architecture (source: I2MTC 2025 poster)',
+    'architecture_caption' => 'Figure: EMGesture system architecture (source: IMS Student Contest poster - I2MTC 2025 )',
     'architecture_cta' => 'You can explore the code, technical documentation, and dataset examples in the official repository:',
     'github_button' => '🔗 Go to GitHub Documentation',
 ];

@@ -45,6 +45,39 @@
     </section>
 
     <section class="mb-5 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
+        <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.who')!!}</h3>
+        <p>{!!__('howWorksMessages.who_description')!!}</p>
+        <ul class="mb-0" style="list-style-type: disc; padding-left: 1.25rem;">
+            @foreach(__('howWorksMessages.roles') as $item)
+                <li>{!! $item !!}</li>
+            @endforeach
+        </ul>
+    </section>
+
+
+    {{-- <section class="mb-4 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
+        <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.support')!!}</h3>
+        <p>{!!__('howWorksMessages.support_text')!!}</p>
+    </section> --}}
+
+    <section class="mb-5 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
+        <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.architecture')!!}</h3>
+        <p>
+            {!!__('howWorksMessages.architecture_description')!!}
+        </p>
+        <div class="text-center my-4">
+            <img src="{{ asset('img/ExperimentalSetup.png') }}" alt="Architettura del sistema EMGesture" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
+            <small class="d-block text-muted mt-2">{!!__('howWorksMessages.architecture_caption')!!}</small>
+        </div>
+        <p class="mt-4">
+            {!!__('howWorksMessages.architecture_cta')!!}
+        </p>
+        <a href="https://github.com/GretaBr01/EMGesture" target="_blank" class="btn btn-primary rounded-pill px-4">
+            {!!__('howWorksMessages.github_button')!!}
+        </a>
+    </section>
+
+    <section class="mb-5 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
         <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.recognition')!!}</h3>
         <p>
             {!!__('howWorksMessages.recognition_description')!!}
@@ -57,16 +90,9 @@
         <p>
             {!!__('howWorksMessages.recognition_accuracy')!!}
         </p>
-    </section>
-
-    <section class="mb-5 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
-        <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.who')!!}</h3>
-        <p>{!!__('howWorksMessages.who_description')!!}</p>
-        <ul class="mb-0" style="list-style-type: disc; padding-left: 1.25rem;">
-            @foreach(__('howWorksMessages.roles') as $item)
-                <li>{!! $item !!}</li>
-            @endforeach
-        </ul>
+        <a href="{{ asset('pdf/poster.pdf') }}" target="_blank" class="btn btn-primary rounded-pill px-4">
+            <i class="bi bi-file-earmark-pdf-fill me-2"></i> Visualizza il Posrter del Progetto
+        </a>
     </section>
 
     <section class="mb-4 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
@@ -79,26 +105,5 @@
         <p>{!!__('howWorksMessages.hardware_note_2')!!}</p>
     </section>
 
-    <section class="mb-4 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
-        <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.support')!!}</h3>
-        <p>{!!__('howWorksMessages.support_text')!!}</p>
-    </section>
-
-        <section class="mb-5 p-4 rounded shadow-sm" style="background: linear-gradient(135deg, #d8caff, #b393f6);">
-        <h3 class="mb-3 text-purple2 fw-semibold">{!!__('howWorksMessages.architecture')!!}</h3>
-        <p>
-            {!!__('howWorksMessages.architecture_description')!!}
-        </p>
-        <div class="text-center my-4">
-            <img src="{{ asset('images/emgesture_architecture.png') }}" alt="Architettura del sistema EMGesture" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
-            <small class="d-block text-muted mt-2">{!!__('howWorksMessages.architecture_caption')!!}</small>
-        </div>
-        <p class="mt-4">
-            {!!__('howWorksMessages.architecture_cta')!!}
-        </p>
-        <a href="https://github.com/GretaBr01/EMGesture" target="_blank" class="btn btn-primary rounded-pill px-4">
-            {!!__('howWorksMessages.github_button')!!}
-        </a>
-    </section>
 </div>
 @endsection

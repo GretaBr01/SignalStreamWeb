@@ -5,9 +5,9 @@
 @section('main_content')
 @if(auth()->user()->role === 'admin')
 <div class="mb-4">
-    <button onclick="window.history.back()" class="btn btn-outline-purple rounded-pill px-4">
+    <a href="{{ route('users.index') }}" class="btn btn-outline-purple rounded-pill px-4">
         ← Torna indietro
-    </button>
+    </a>
 </div>
 @endif
 <div class="container mt-4">

@@ -7,7 +7,7 @@
     <div class="col-md-3 col-lg-2 sidebar">
         <ul class="nav flex-column">
             <li class="nav-item mb-2">
-            <a href="{{ route('workspace.series') }}" class="nav-link">Storico Dati</a>
+            <a href="{{ route('series.index') }}" class="nav-link">Storico Dati</a>
             </li>
             @if(auth()->user()->role !== 'admin')
                 <li class="nav-item mb-2">
@@ -22,7 +22,7 @@
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('users.index') }}" class="nav-link">Gestione Utenti</a>
                 @else
-                    <a href="{{ route('user.edit', auth()->user()->id) }}" class="nav-link">Profilo Utente</a>
+                    <a href="{{ route('users.edit', auth()->user()->id) }}" class="nav-link">Profilo Utente</a>
                 @endif
             </li>
         </ul>

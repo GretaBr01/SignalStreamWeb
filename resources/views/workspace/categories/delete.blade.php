@@ -2,7 +2,7 @@
 
 @section('title', 'Delete category')
 
-@section('body')
+@section('main_content')
 <div class="container-fluid text-center page-content">
     <div class="row">
         <div class="col-md-12">

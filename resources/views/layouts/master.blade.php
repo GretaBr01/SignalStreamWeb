@@ -51,7 +51,7 @@
 
                         @if(auth()->check())
                             <li class="nav-item">
-                            <a class="nav-link" href="{{ route('workspace.series') }}">{{ __('messages.work_space') }}</a>
+                            <a class="nav-link" href="{{ route('series.index') }}">{{ __('messages.work_space') }}</a>
                             </li>
 
                             <li class="nav-item"><i>{{ auth()->user()->name }}</i>

@@ -52,7 +52,7 @@
                 <div class="d-flex gap-2">
                     <!-- Bottone modifica -->
                     @if(auth()->user()->id !== $user->id)
-                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-outline-warning btn-sm">
+                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-warning btn-sm">
                             <i class="bi bi-pencil-square"></i> Modifica
                         </a>
                     @else
@@ -108,7 +108,7 @@
                                 Email: ${user.email}<br>
                                 Ruolo: <span class="badge bg-secondary">${user.role}</span>
                             </div>
-                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-outline-warning">Modifica</a>
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-warning">Modifica</a>
                         </li>
                     `);
                 });

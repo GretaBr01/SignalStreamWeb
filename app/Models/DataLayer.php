@@ -43,6 +43,7 @@ class DataLayer extends Model
     }
     
     private function saveImage($name, $image){
+        $name = $name . '.'. $image->getClientOriginalExtension();
         $path = $image->storeAs('image', $name, 'private'); 
         return $path;
     }
@@ -85,6 +86,11 @@ class DataLayer extends Model
 
         if ($category->serie()->exists()) {
             throw new \Exception("Impossibile eliminare la categoria: ha serie associate.");
+        }
+        
+        $path = $category->image;
+        if ($path && Storage::exists($path)) {
+            Storage::delete($path);
         }
 
         $category->delete();

@@ -2,7 +2,7 @@
 
 @section('title', 'Delete Serie')
 
-@section('body')
+@section('main_content')
 <div class="container-fluid text-center page-content">
     <div class="row">
         <div class="col-md-12">
@@ -30,7 +30,7 @@
                     <p class="text-danger fw-bold">
                         This series <strong>will be permanently removed</strong> from the database.
                     </p>
-                    <form method="POST" action="{{ route('series.destroy', ['id' => $serie->id]) }}">
+                    <form method="POST" action="{{ route('series.destroy', ['series' => $serie->id]) }}">
                         @csrf
                         @method('DELETE')
                         <label for="deleteSubmit" class="btn btn-danger">
@@ -52,7 +52,7 @@
                     <p class="text-muted">
                         The series <strong>will not be deleted</strong>.
                     </p>
-                    <a href="{{ route('workspace.series') }}" class="btn btn-secondary">
+                    <a href="{{ route('series.index') }}" class="btn btn-secondary">
                         <i class="bi bi-box-arrow-left"></i> Cancel
                     </a>
                 </div>

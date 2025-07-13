@@ -99,7 +99,7 @@ class SeriesController extends Controller
 
         $dl = new DataLayer();
         $dl->addSerie($note, $user_id, $emg_file, $imu_file, $category_id);
-        return redirect()->route('workspace.series');
+        return redirect()->route('series.index');
     }
 
 
@@ -162,7 +162,7 @@ class SeriesController extends Controller
 
         $dl = new DataLayer();
         $dl->deleteSerie($id);
-        return Redirect::to(route('workspace.series'));
+        return Redirect::to(route('series.index'));
     }
 
     public function downloadEmg($id)

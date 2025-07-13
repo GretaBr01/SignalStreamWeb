@@ -40,7 +40,7 @@ class SeriesRealTimeController extends Controller
 
         $dl = new DataLayer();
         $dl->addRealTimeSerie($note, $user_id, $emg, $imu, $category_id);
-        return redirect()->route('workspace.series');
+        return redirect()->route('series.index');
     }
 
     public function review(Request $request)

@@ -55,7 +55,7 @@ return [
 
     'architecture' => '🖼️ Architettura del sistema',
     'architecture_description' => 'Il sistema EMGesture è composto da più moduli indossabili: un\'unità di acquisizione con Arduino Nano RP2040, una scheda EMG Olimex, un modulo IMU e un Raspberry Pi 3 per l\'elaborazione.',
-    'architecture_caption' => 'Figura: Architettura del sistema EMGesture (fonte: poster I2MTC 2025)',
+    'architecture_caption' => 'Figura: Architettura del sistema EMGesture (fonte: poster IMS Student Contest - I2MTC 2025)',
     'architecture_cta' => 'Puoi consultare il codice, la documentazione tecnica, e gli esempi di dataset direttamente sulla repository ufficiale:',
     'github_button' => '🔗 Vai alla Documentazione GitHub',
 ];

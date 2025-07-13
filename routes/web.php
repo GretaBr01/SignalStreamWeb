@@ -25,34 +25,34 @@ use App\Http\Controllers\TestFileController;
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
+// Route::get('/test-upload', [TestFileController::class, 'showForm'])->name('test.upload.form');
+// Route::post('/test-upload', [TestFileController::class, 'uploadAndDownload'])->name('test.upload');
 
 
 
 Route::get('/lang/{lang}', [LangController::class, 'changeLanguage'])->name('setLang');
 
-
-// Route::get('/test-upload', [TestFileController::class, 'showForm'])->name('test.upload.form');
-// Route::post('/test-upload', [TestFileController::class, 'uploadAndDownload'])->name('test.upload');
-
 Route::middleware(['lang'])->group(function() {
     require __DIR__.'/auth.php';
 
     Route::get('/', [FrontController::class, 'getHome'])->name('home');
-
     Route::get('/come-funziona', [FrontController::class, 'getHowWorksPage'])->name('howitworks');
     
 
     Route::middleware(['auth'])->group(function () {
-        Route::put('/workspace/users/{id}', [UserController::class, 'update'])->name('user.update');
-        Route::get('/workspace/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 
-        Route::get('/workspace/storico-dati', [SeriesController::class, 'index'])->name('workspace.series');
-        Route::get('/workspace/storico-dati/series/create', [SeriesController::class, 'create'])->name('series.create');
-        Route::get('/workspace/storico-dati/series/{id}', [SeriesController::class, 'show'])->name('series.show');
-        Route::get('/workspace/storico-dati/series/{id}/destroy/confirm', [SeriesController::class, 'confirmDestroy'])->name('serie.destroy.confirm');
-        Route::delete('/workspace/storico-dati/series/{id}', [SeriesController::class, 'destroy'])->name('series.destroy');
+        // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
+        // Route::get('/series/create', [SeriesController::class, 'create'])->name('series.create');
+        // Route::get('/series/{id}', [SeriesController::class, 'show'])->name('series.show');
+        Route::resource('series', SeriesController::class)->only([
+            'index', 'create', 'store', 'show', 'destroy'
+        ]);
+        Route::get('/series/{id}/destroy/confirm', [SeriesController::class, 'confirmDestroy'])->name('serie.destroy.confirm');
+        // Route::delete('/series/{id}', [SeriesController::class, 'destroy'])->name('series.destroy');
+        // Route::post('/series', [SeriesController::class, 'store'])->name('series.store');
 
-        Route::post('/series', [SeriesController::class, 'store'])->name('series.store');
         Route::get('/ajax/series/{id}/emg', [SeriesController::class, 'getEmgCsv']);
         Route::get('/ajax/series/{id}/imu', [SeriesController::class, 'getImuCsv']);
 
@@ -84,6 +84,8 @@ Route::middleware(['lang'])->group(function() {
         Route::get('/categories/{id}/destroy/confirm', [CategoryController::class, 'confirmDestroy'])->name('categories.destroy.confirm');
 
         Route::get('/admin/category-image/{path}', [CategoryController::class, 'showImage'])->where('path', '.*')->name('category.image');
+
+        Route::get('/users/{id}/confirm-update', [UserController::class, 'confirmUpdate'])->name('user.confirm-update');
 
     });
 

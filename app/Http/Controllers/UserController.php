@@ -37,6 +37,19 @@ class UserController extends Controller
         return view('workspace.user.edit', compact('user'));
     }
 
+    public function confirmUpdate(Request $request, $id)
+    {
+        $user = Auth::user()->role === 'admin' ? (new DataLayer())->findUserById($id) : Auth::user();
+
+        $validated = session('validated_data');
+
+        if (!$validated) {
+            return redirect()->route('users.edit', $id)->with('error', 'Nessuna modifica da confermare.');
+        }
+
+        return view('workspace.user.confirm_update', compact('user', 'validated'));
+    }
+
     public function update(Request $request, $id)
     {
         $dl = new DataLayer();
@@ -70,11 +83,11 @@ class UserController extends Controller
         ]);
         
         // Se l'admin non ha ancora confermato, mostra la pagina di conferma
-        if ($role === 'admin' && !$request->has('confirm')) {
-            return view('workspace.user.confirm_update', [
-                'user' => $user,
-                'validated' => $validated,
-            ]);
+        if (Auth::user()->role === 'admin' && !$request->has('confirm')) {
+            // Salvo i dati in sessione per la conferma
+            return redirect()
+                ->route('user.confirm-update', $user->id)
+                ->with('validated_data', $validated);
         }
         
         $dl->editUser(
@@ -88,7 +101,7 @@ class UserController extends Controller
             $validated['role'] ?? null
         );
 
-        return redirect()->back()->with('success', 'Nota aggiornata con successo.');
+        return redirect()->route('users.edit', $id)->with('success', 'Modifica salvata con successo.');
     }
 
     public function confirmDestroy($id)
