@@ -25,7 +25,7 @@
                 const alert = document.getElementById('success-alert');
                 if (alert) {
                     alert.classList.add('fade');
-                    setTimeout(() => alert.remove(), 500); // Rimuove dopo l’animazione
+                    setTimeout(() => alert.remove(), 500);
                 }
             }, 5000); // 5 secondi
         </script>

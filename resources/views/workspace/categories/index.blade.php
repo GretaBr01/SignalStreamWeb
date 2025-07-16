@@ -25,7 +25,7 @@
 
                     <div class="col-md-4">
                         <label for="image" class="form-label">Immagine</label>
-                        <input type="file" name="image" class="form-control" accept="image/*">
+                        <input type="file" name="image" id="image" class="form-control" accept="image/*">
                     </div>
                     
                     {{-- <div class="col-md-4">
@@ -51,8 +51,7 @@
                     <div class="col">
                         <div class="card h-100 shadow-sm d-flex flex-column">
                             @if ($category->image)
-                            <img src="{{ route('category.image', ['path' => $category->image]) }}" class="card-img-top" alt="Categoria">
-                                {{-- <img src="{{ asset('storage/' . $category->image) }}" class="card-img-top" alt="Immagine categoria"> --}}
+                                <img src="{{ route('category.image', ['path' => $category->image]) }}" class="card-img-top" alt="Categoria">
                             @else
                                 <div class="text-center card-body flex-grow-1 p-4 text-muted">Nessuna immagine</div>
                             @endif
@@ -78,7 +77,6 @@
                                     <button class="btn btn-secondary btn-sm" disabled>
                                         <i class="bi bi-trash"></i> Elimina
                                     </button>
-                                    {{-- <span class="text-muted small">In uso</span> --}}
                                 @endif
                             </div>
                         </div>

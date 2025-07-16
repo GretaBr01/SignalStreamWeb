@@ -122,6 +122,9 @@ class DataLayer extends Model
         return $query->get();
     }
 
+    /*******
+     * User
+     * *****/
     public function listUsers()
     {
         return User::orderBy('name', 'asc')->get();
@@ -141,6 +144,12 @@ class DataLayer extends Model
     public function listRoles(){
         return User::select('role')->distinct()->pluck('role');
     }
+
+    public function searchUser($email){
+        return User::where('email', 'like', '%' . $email . '%')->get(['id', 'name', 'email', 'role']);
+    }
+
+
 
     public function listCategories(){
         return Category::orderBy('name','asc')->get();

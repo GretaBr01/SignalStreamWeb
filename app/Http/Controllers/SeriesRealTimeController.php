@@ -10,23 +10,8 @@ use App\Models\DataLayer;
 
 class SeriesRealTimeController extends Controller
 {
-    // private function arrayToCsv(array $data)
-    // {
-    //     if (empty($data)) return '';
-
-    //     $headers = array_keys($data[0]);
-    //     $lines = [implode(',', $headers)];
-
-    //     foreach ($data as $row) {
-    //         $lines[] = implode(',', array_map(fn($v) => (string) $v, $row));
-    //     }
-
-    //     return implode("\n", $lines);
-    // }
-
 
     public function index(){
-        // return view('errors.501');
         return view('workspace.rtseries.acquisizione');
     }
 

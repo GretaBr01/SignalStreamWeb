@@ -3,47 +3,6 @@
 @section('title', __('messages.register') . ' - ' . __('messages.title'))
 
 @section('body')
-<script>
-    $(document).ready(function(){
-        $("#register-form").submit(function(event){
-            let name = $("input[name='name']").val().trim();
-            let email = $("input[name='email']").val().trim();
-            let password = $("input[name='password']").val().trim();
-            let confirmPassword = $("input[name='password_confirmation']").val().trim();
-            let passwordRegex = /^(?=.*[0-9])(?=.*[!-\*\[\]\$&\/]).{8,}$/;
-            let valid = true;
-
-            $(".invalid-feedback").text(""); // Pulisci errori precedenti
-
-            if (name === "") {
-                $("#invalid-name").text("{{ __('messages.name_required') }}");
-                valid = false;
-            }
-
-            if (email === "") {
-                $("#invalid-email").text("{{ __('messages.email_required') }}");
-                valid = false;
-            }
-
-            if (!passwordRegex.test(password)) {
-                $("#invalid-password").text("{{ __('messages.password_invalid') }}");
-                valid = false;
-            }
-
-            if (confirmPassword !== password) {
-                $("#invalid-confirm").text("{{ __('messages.password_mismatch') }}");
-                valid = false;
-            }
-
-            if (!valid) {
-                event.preventDefault();
-                return;
-            }
-
-
-        });
-    });
-</script>
 
 <div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
     <div class="card shadow-lg p-4" style="max-width: 420px; width: 100%; border-radius: 1rem;">
@@ -92,4 +51,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("#register-form").submit(function(event){
+            let name = $("input[name='name']").val().trim();
+            let email = $("input[name='email']").val().trim();
+            let password = $("input[name='password']").val().trim();
+            let confirmPassword = $("input[name='password_confirmation']").val().trim();
+            let passwordRegex = /^(?=.*[0-9])(?=.*[!-\*\[\]\$&\/]).{8,}$/;
+            let valid = true;
+
+            $(".invalid-feedback").text(""); // Pulisci errori precedenti
+
+            if (name === "") {
+                $("#invalid-name").text("{{ __('messages.name_required') }}");
+                valid = false;
+            }
+
+            if (email === "") {
+                $("#invalid-email").text("{{ __('messages.email_required') }}");
+                valid = false;
+            }
+
+            if (!passwordRegex.test(password)) {
+                $("#invalid-password").text("{{ __('messages.password_invalid') }}");
+                valid = false;
+            }
+
+            if (confirmPassword !== password) {
+                $("#invalid-confirm").text("{{ __('messages.password_mismatch') }}");
+                valid = false;
+            }
+
+            if (!valid) {
+                event.preventDefault();
+                return;
+            }
+
+
+        });
+    });
+</script>
 @endsection

@@ -3,35 +3,6 @@
 @section('title', __('messages.btn_login') . ' - ' . __('messages.title'))
 
 @section('body')
-<script>
-    $(document).ready(function(){
-        $("#login-form").submit(function(event){
-            let email = $("input[name='email']").val().trim();
-            let password = $("input[name='password']").val().trim();
-            let valid = true;
-
-            if (email === "") {
-                $("#invalid-email").text("{{ __('messages.required_email') }}");
-                valid = false;
-            } else {
-                $("#invalid-email").text("");
-            }
-
-            if (password === "") {
-                $("#invalid-password").text("{{ __('messages.required_password') }}");
-                valid = false;
-            } else {
-                $("#invalid-password").text("");
-            }
-
-            if (!valid) event.preventDefault();
-        });
-
-    });
-
-
-</script>
-
 <div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
     <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%; border-radius: 1rem;">
         <div class="text-center mb-4">
@@ -78,4 +49,30 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#login-form").submit(function(event){
+            let email = $("input[name='email']").val().trim();
+            let password = $("input[name='password']").val().trim();
+            let valid = true;
+
+            if (email === "") {
+                $("#invalid-email").text("{{ __('messages.required_email') }}");
+                valid = false;
+            } else {
+                $("#invalid-email").text("");
+            }
+
+            if (password === "") {
+                $("#invalid-password").text("{{ __('messages.required_password') }}");
+                valid = false;
+            } else {
+                $("#invalid-password").text("");
+            }
+
+            if (!valid) event.preventDefault();
+        });
+
+    });
+</script>
 @endsection

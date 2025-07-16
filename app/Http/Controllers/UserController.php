@@ -39,7 +39,7 @@ class UserController extends Controller
 
     public function confirmUpdate(Request $request, $id)
     {
-        $user = Auth::user()->role === 'admin' ? (new DataLayer())->findUserById($id) : Auth::user();
+        $user = auth()->user()->role === 'admin' ? (new DataLayer())->findUserById($id) : auth()->user();
 
         $validated = session('validated_data');
 
@@ -54,7 +54,7 @@ class UserController extends Controller
     {
         $dl = new DataLayer();
 
-        $user = Auth::user()->role === 'admin' ? $dl->findUserById($id) : Auth::user();
+        $user = auth()->user()->role === 'admin' ? $dl->findUserById($id) : Auth::user();
 
         $name = $request->input('name');
         $email = $request->input('email');
@@ -68,7 +68,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
             'email' => [
-                Auth::user()->role === 'admin' ? 'required' : 'nullable',
+                auth()->user()->role === 'admin' ? 'required' : 'nullable',
                 'string',
                 'lowercase',
                 'email',
@@ -83,7 +83,7 @@ class UserController extends Controller
         ]);
         
         // Se l'admin non ha ancora confermato, mostra la pagina di conferma
-        if (Auth::user()->role === 'admin' && !$request->has('confirm')) {
+        if (auth()->user()->role === 'admin' && !$request->has('confirm')) {
             // Salvo i dati in sessione per la conferma
             return redirect()
                 ->route('user.confirm-update', $user->id)
@@ -121,9 +121,9 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
+        $dl = new DataLayer();
         $email = $request->input('email');
-
-        $users = User::where('email', 'like', '%' . $email . '%')->get(['id', 'name', 'email', 'role']);
+        $users = $dl->searchUser($email);
 
         return response()->json($users);
     }

@@ -12,23 +12,6 @@ use App\Http\Controllers\SeriesRealTimeController;
 
 use App\Http\Controllers\TestFileController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-// Route::get('/test-upload', [TestFileController::class, 'showForm'])->name('test.upload.form');
-// Route::post('/test-upload', [TestFileController::class, 'uploadAndDownload'])->name('test.upload');
-
-
 
 Route::get('/lang/{lang}', [LangController::class, 'changeLanguage'])->name('setLang');
 
@@ -43,15 +26,10 @@ Route::middleware(['lang'])->group(function() {
         Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
         Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 
-        // Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
-        // Route::get('/series/create', [SeriesController::class, 'create'])->name('series.create');
-        // Route::get('/series/{id}', [SeriesController::class, 'show'])->name('series.show');
         Route::resource('series', SeriesController::class)->only([
             'index', 'create', 'store', 'show', 'destroy'
         ]);
         Route::get('/series/{id}/destroy/confirm', [SeriesController::class, 'confirmDestroy'])->name('serie.destroy.confirm');
-        // Route::delete('/series/{id}', [SeriesController::class, 'destroy'])->name('series.destroy');
-        // Route::post('/series', [SeriesController::class, 'store'])->name('series.store');
 
         Route::get('/ajax/series/{id}/emg', [SeriesController::class, 'getEmgCsv']);
         Route::get('/ajax/series/{id}/imu', [SeriesController::class, 'getImuCsv']);
@@ -63,11 +41,9 @@ Route::middleware(['lang'])->group(function() {
 
     Route::middleware(['auth','isRegisteredUser'])->group(function() {
         Route::get('/acquisizione', [SeriesRealTimeController::class, 'index'])->name('workspace.acquisizione');
-        // Route::post('/save-series', [SeriesRealTimeController::class, 'store']);
         Route::get('/review-series', [SeriesRealTimeController::class, 'review'])->name('rtseries.review');
         Route::post('/save-series', [SeriesRealTimeController::class, 'store'])->name('rtseries.store');
 
-        // Route::get('/acquisizione-live', function () { return view('workspace.acquisizione'); });
     });
 
     Route::middleware(['auth','isAdmin'])->group(function() {
@@ -76,8 +52,6 @@ Route::middleware(['lang'])->group(function() {
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
-        // Route::get('/users/{id}/destroy/confirm', [UserController::class, 'confirmDestroy'])->name('user.destroy.confirm');
-        // Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
         Route::resource('categories', CategoryController::class);
         Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');

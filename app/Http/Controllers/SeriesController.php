@@ -99,7 +99,7 @@ class SeriesController extends Controller
 
         $dl = new DataLayer();
         $dl->addSerie($note, $user_id, $emg_file, $imu_file, $category_id);
-        return redirect()->route('series.index');
+        return redirect()->route('series.index')->with('success', 'Serie aggiunta con successo.');
     }
 
 

@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\DataLayer;
-use App\Models\Category;
 
 class CategoryController extends Controller
 {

@@ -80,6 +80,7 @@
 
 
 <script>
+    const authenticatedUserId = {{ auth()->user()->id }};
     $('#search-email').on('keyup', function () {
         let query = $(this).val();
 
@@ -108,7 +109,14 @@
                                 Email: ${user.email}<br>
                                 Ruolo: <span class="badge bg-secondary">${user.role}</span>
                             </div>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-warning">Modifica</a>
+                            ${authenticatedUserId !== user.id
+                                ? `<a href="/users/${user.id}/edit" class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil-square"></i> Modifica
+                                </a>`
+                                : `<button class="btn btn-secondary btn-sm" disabled>
+                                    <i class="bi bi-person-lock"></i> Modifica
+                                </button>`
+                            }
                         </li>
                     `);
                 });

@@ -201,33 +201,6 @@
             // reindirizza alla view per salvataggio
             window.location.href = "/review-series";
         }
-
-        /*if (emgData.length || imuData.length) {
-            const categoria = prompt("Inserisci la categoria del gesto:");
-            const note = prompt("Note opzionali sulla serie:");
-
-            fetch('/save-series', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    categoria,
-                    note,
-                    emg: emgData,
-                    imu: imuData
-                })
-            }).then(res => res.json())
-            .then(res => {
-                alert(res.message || "Serie salvata con successo!");
-                emgData = [];
-                imuData = [];
-            }).catch(err => {
-                alert("Errore nel salvataggio");
-                console.error(err);
-            });
-        }*/
     });
 </script>
 @endsection
