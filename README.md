@@ -129,3 +129,4 @@ python tcp_bridge.py       # Python TCP → WebSocket bridge
 8. Admins have access to:
    - All users’ series
    - Category creation/editing/deletion
+(versione PHP 8.2.14)
